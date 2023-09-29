@@ -1,0 +1,39 @@
+name: My job
+
+on:
+  push:
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: 'Force Mode'
+        required: true
+        default: Y
+        type: choice
+        options:
+          - Y
+          - N
+
+jobs:
+  worker:
+    runs-on: ubuntu-latest
+    if: ${{ github.event.head_commit.message == 'update' || github.event.inputs.mode || github.event.schedule }}
+
+    # fuck requirement!!!
+    outputs:
+      output1: ${{ steps.step1.outputs.result }}
+
+    steps:
+
+      - name: loading...
+        uses: actions/checkout@v3
+
+      - name: Install Golang
+        uses: actions/setup-go@v4
+        with:
+          go-version: 1.19.x
+
+      - name: go run main.go ${{github.event.inputs.mode}}
+        id: step1
+        run: go run main.go ${{github.event.inputs.mode}}
+
+    
