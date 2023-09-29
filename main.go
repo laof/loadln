@@ -12,6 +12,12 @@ import (
 func main() {
 	url := "https://ln" + "cn.org"
 	opts := append(chromedp.DefaultExecAllocatorOptions[:],
+		chromedp.Flag("disable-web-security", true),
+		chromedp.Flag("no-first-run", true),
+		chromedp.Flag("no-default-browser-check", true),
+		chromedp.Flag("disable-gpu", true),
+		chromedp.Flag("ignore-certificate-errors", true),
+		chromedp.Flag("allow-running-insecure-content", true),
 		chromedp.Flag("headless", true),
 	)
 
